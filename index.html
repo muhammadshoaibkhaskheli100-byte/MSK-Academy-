@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102a56">
+<title>MSK Academy | Online Tests</title>
+<style>
+:root{--navy:#102a56;--blue:#2459a9;--sky:#eaf2ff;--ink:#172033;--muted:#667085;--line:#dce3ee;--bg:#f5f7fb;--white:#fff;--green:#16865c;--red:#bd3030}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 15px;font-weight:700}
+.primary{background:var(--blue);color:#fff}.secondary{background:var(--sky);color:var(--navy)}.danger{background:#fff0f0;color:var(--red)}button:disabled{opacity:.45;cursor:not-allowed}
+header{background:var(--navy);color:#fff;padding:15px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:2}
+.brand{font-size:1.18rem;font-weight:850;letter-spacing:.3px}.brand span{color:#9fc4ff}.header-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.header-right small{color:#d8e5ff}
+main{max-width:1080px;margin:24px auto;padding:0 16px 48px}.hero{background:linear-gradient(125deg,#102a56,#2863b8);color:white;border-radius:20px;padding:26px;margin-bottom:18px}.hero h1{margin:0 0 8px;font-size:clamp(1.5rem,4vw,2.35rem)}.hero p{margin:0;color:#e3edff;max-width:680px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 4px 14px #182b4a08}.card h2,.card h3{margin-top:0}.muted{color:var(--muted)}.pill{display:inline-block;background:var(--sky);color:var(--navy);border-radius:999px;padding:5px 9px;font-size:.8rem;font-weight:750}.stack{display:grid;gap:12px}.field{display:grid;gap:6px}.field label{font-size:.9rem;font-weight:750}.field input,.field select,.field textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:11px;background:white}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{background:#e6ebf4;color:#24324a}.tab.active{background:var(--navy);color:#fff}.notice{padding:12px 14px;border-radius:12px;background:#fff7df;color:#6f4b00;font-size:.92rem;line-height:1.5}.success{background:#e8f8ef;color:#17623d}.error{background:#fff0f0;color:#8f2525}.hidden{display:none!important}.test-option{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:10px;margin:8px 0;background:#fff}.test-option input{margin-top:5px}.test-option.selected{border-color:var(--blue);background:#f2f7ff}.test-option.correct{border-color:var(--green);background:#edfff5}.test-option.wrong{border-color:var(--red);background:#fff3f3}.question-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}.timer{font-variant-numeric:tabular-nums;font-weight:850;color:var(--red);font-size:1.2rem}.progress{height:8px;background:#e4e9f2;border-radius:99px;overflow:hidden;margin:12px 0}.progress div{height:100%;background:var(--blue);width:0}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:520px}th,td{text-align:left;padding:11px;border-bottom:1px solid var(--line);font-size:.92rem}th{background:#f1f5fb}footer{text-align:center;padding:22px;color:var(--muted);font-size:.85rem}
+@media(max-width:600px){header{padding:13px}.hero{padding:21px}.card{padding:15px}.header-right{width:100%;justify-content:space-between}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">MSK <span>ACADEMY</span></div>
+  <div class="header-right"><small id="headerStatus">Online MCQ Exam Platform</small><button id="logoutBtn" class="secondary hidden">Log out</button></div>
+</header>
+<main>
+  <section class="hero">
+    <h1>Learn. Practice. Achieve.</h1>
+    <p>Prepare for MDCAT, BSN and FSc with subject-wise MCQs, timed practice tests, instant scores and answer explanations.</p>
+  </section>
+
+  <section id="loginView" class="grid">
+    <div class="card">
+      <h2>Student login</h2>
+      <p class="muted">Use your unique Student ID and password provided by MSK Academy.</p>
+      <form id="loginForm" class="stack">
+        <div class="field"><label for="studentId">Student ID</label><input id="studentId" placeholder="e.g. MSK1001" autocomplete="username" required></div>
+        <div class="field"><label for="password">Password</label><input id="password" type="password" placeholder="Enter password" autocomplete="current-password" required></div>
+        <button class="primary" type="submit">Log in</button>
+        <p id="loginMessage" class="muted" aria-live="polite"></p>
+      </form>
+    </div>
+    <div class="card">
+      <h2>New student?</h2>
+      <p>Student accounts are created or approved by the academy administrator. This helps keep paid tests restricted to the correct students.</p>
+      <div class="notice">For the initial setup, use the demo login below. Demo accounts are only for preview and are not secure real accounts.</div>
+      <div style="margin-top:14px" class="stack">
+        <div><span class="pill">Demo student</span><p><b>ID:</b> MSK1001<br><b>Password:</b> student123</p></div>
+        <div><span class="pill">Demo admin</span><p><b>ID:</b> ADMIN001<br><b>Password:</b> admin123</p></div>
+        <button id="demoStudent" class="secondary" type="button">Fill student demo</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="appView" class="hidden">
+    <div class="card" style="margin-bottom:16px">
+      <div class="row"><div><h2 id="welcomeTitle" style="margin-bottom:4px">Welcome</h2><p id="welcomeSub" class="muted" style="margin:0"></p></div><div style="text-align:right"><span class="pill" id="rolePill">Student</span></div></div>
+    </div>
+    <nav class="tabs" id="studentTabs">
+      <button class="tab active" data-panel="dashboardPanel">Dashboard</button>
+      <button class="tab" data-panel="testsPanel">Available tests</button>
+      <button class="tab" data-panel="resultsPanel">My results</button>
+    </nav>
+    <nav class="tabs hidden" id="adminTabs">
+      <button class="tab active" data-panel="adminPanel">Admin dashboard</button>
+      <button class="tab" data-panel="manageTestsPanel">Manage tests</button>
+    </nav>
+
+    <section id="dashboardPanel" class="panel">
+      <div class="grid">
+        <div class="card"><span class="muted">Available practice tests</span><h2 id="dashTestCount">3</h2></div>
+        <div class="card"><span class="muted">Tests completed</span><h2 id="dashCompleted">0</h2></div>
+        <div class="card"><span class="muted">Average score</span><h2 id="dashAverage">—</h2></div>
+      </div>
+      <div class="card" style="margin-top:14px"><h3>Start preparing</h3><p class="muted">Choose a subject test, read each question carefully, and submit before the timer ends.</p><button class="primary" data-goto="testsPanel">Browse tests</button></div>
+    </section>
+
+    <section id="testsPanel" class="panel hidden"><div class="row" style="margin-bottom:12px"><div><h2>Available tests</h2><p class="muted">Select a test to begin.</p></div></div><div id="testList" class="grid"></div></section>
+    <section id="resultsPanel" class="panel hidden"><div class="card"><h2>My results</h2><div id="resultsContent" class="muted">No tests attempted yet.</div></div></section>
+
+    <section id="examPanel" class="panel hidden">
+      <div class="card">
+        <div class="question-top"><div><span class="pill" id="examSubject">Biology</span><h2 id="examTitle">Test title</h2><p class="muted" id="examInstructions"></p></div><div class="timer" id="timer">05:00</div></div>
+        <div class="progress"><div id="examProgress"></div></div>
+        <div class="question-top"><span class="muted" id="questionCounter">Question 1 of 5</span><span class="muted" id="answeredCount">0 answered</span></div>
+        <h3 id="questionText" style="margin-top:18px"></h3>
+        <div id="options"></div>
+        <div class="row" style="margin-top:16px"><button id="prevQuestion" class="secondary">Previous</button><button id="nextQuestion" class="primary">Next</button><button id="submitExam" class="primary">Submit test</button></div>
+      </div>
+    </section>
+    <section id="reviewPanel" class="panel hidden"><div class="card"><h2>Test result and answer review</h2><div id="scoreSummary"></div><div id="reviewQuestions"></div><button id="backToTests" class="primary" style="margin-top:14px">Back to tests</button></div></section>
+
+    <section id="adminPanel" class="panel hidden">
+      <div class="notice">Admin demo only. In production, administrator permissions must be checked by the server, not by this page.</div>
+      <div class="grid" style="margin-top:14px">
+        <div class="card"><h3>Students</h3><p class="muted">Demo accounts are stored only in this browser preview.</p><button class="secondary" id="showDemoAccounts">Show demo accounts</button><div id="demoAccounts" class="hidden"></div></div>
+        <div class="card"><h3>Test catalogue</h3><p class="muted">Preview available tests and question counts.</p><div id="adminTestSummary"></div></div>
+      </div>
+    </section>
+    <section id="manageTestsPanel" class="panel hidden">
+      <div class="card"><h2>Manage tests (preview)</h2><p class="muted">This starter displays sample tests. The production version should use a protected database and server-side admin functions to create tests and questions.</p><div id="manageTestList"></div></div>
+    </section>
+  </section>
+</main>
+<footer>© MSK Academy · Student ID login · MDCAT / BSN / FSc preparation</footer>
+
+<script>
+const DEMO_USERS = [
+ {id:"MSK1001",password:"student123",name:"Demo Student",role:"student"},
+ {id:"ADMIN001",password:"admin123",name:"MSK Academy Admin",role:"admin"}
+];
+const TESTS = [
+ {id:"bio-basics",title:"Biology: Cell Biology Basics",subject:"Biology",minutes:5,paid:false,questions:[
+  {q:"Which organelle is known as the powerhouse of the cell?",options:["Ribosome","Mitochondrion","Golgi apparatus","Lysosome"],answer:1,explain:"Mitochondria produce most cellular ATP through aerobic respiration."},
+  {q:"Which structure controls the movement of substances into and out of a cell?",options:["Cell membrane","Nucleolus","Chromosome","Centriole"],answer:0,explain:"The plasma membrane is selectively permeable and regulates exchange."},
+  {q:"What is the basic structural and functional unit of life?",options:["Tissue","Organ","Cell","Organ system"],answer:2,explain:"The cell is the basic unit of living organisms."},
+  {q:"Which molecule carries genetic information in most organisms?",options:["ATP","DNA","Glucose","Cholesterol"],answer:1,explain:"DNA stores hereditary information in most organisms."},
+  {q:"Ribosomes are mainly involved in:",options:["Protein synthesis","Lipid storage","Photosynthesis","Cell movement"],answer:0,explain:"Ribosomes translate mRNA to build proteins."}
+ ]},
+ {id:"chem-intro",title:"Chemistry: Fundamentals",subject:"Chemistry",minutes:5,paid:false,questions:[
+  {q:"The atomic number of an element equals the number of:",options:["Neutrons","Protons","Nucleons","Shells"],answer:1,explain:"Atomic number is the number of protons in the nucleus."},
+  {q:"Which type of bond involves sharing electron pairs?",options:["Ionic","Covalent","Metallic only","Hydrogen only"],answer:1,explain:"Covalent bonds form when atoms share electron pairs."},
+  {q:"A solution with pH 3 is:",options:["Neutral","Basic","Acidic","Always a salt"],answer:2,explain:"A pH below 7 is acidic at ordinary conditions."},
+  {q:"The SI unit for amount of substance is:",options:["Gram","Mole","Litre","Kelvin"],answer:1,explain:"The mole is the SI base unit for amount of substance."},
+  {q:"Which particle has a negative charge?",options:["Proton","Neutron","Electron","Alpha particle"],answer:2,explain:"Electrons carry a negative elementary charge."}
+ ]},
+ {id:"phys-motion",title:"Physics: Motion",subject:"Physics",minutes:5,paid:false,questions:[
+  {q:"The SI unit of velocity is:",options:["m/s","m/s²","kg m/s","Newton"],answer:0,explain:"Velocity is displacement per unit time, measured in metres per second."},
+  {q:"The slope of a displacement-time graph represents:",options:["Acceleration","Velocity","Force","Momentum"],answer:1,explain:"The rate of change of displacement with time is velocity."},
+  {q:"Which quantity is a vector?",options:["Distance","Speed","Time","Displacement"],answer:3,explain:"Displacement has both magnitude and direction."},
+  {q:"The SI unit of acceleration is:",options:["m/s","m/s²","km/h","N/kg²"],answer:1,explain:"Acceleration is change in velocity per unit time."},
+  {q:"If speed is constant in a straight line, acceleration is:",options:["Zero","Increasing","Always 9.8 m/s²","Infinite"],answer:0,explain:"Constant velocity means zero acceleration."}
+ ]}
+];
+let currentUser=null,currentTest=null,currentIndex=0,answers={},secondsLeft=0,timerHandle=null,lastReview=null;
+const $=id=>document.getElementById(id);
+function show(el){$(el).classList.remove("hidden")} function hide(el){$(el).classList.add("hidden")}
+function setMessage(text,type=""){const e=$("loginMessage");e.textContent=text;e.className=type?"notice "+type:"muted";}
+$("demoStudent").onclick=()=>{$("studentId").value="MSK1001";$("password").value="student123";};
+$("loginForm").addEventListener("submit",e=>{e.preventDefault();const id=$("studentId").value.trim().toUpperCase(),pw=$("password").value;const u=DEMO_USERS.find(x=>x.id===id&&x.password===pw);if(!u){setMessage("Login failed. In this preview, use the demo credentials shown on this page.","error");return;}login(u);});
+function login(user){currentUser=user;hide("loginView");show("appView");show("logoutBtn");$("headerStatus").textContent=user.id;$("welcomeTitle").textContent="Welcome, "+user.name;$("welcomeSub").textContent="Student ID: "+user.id;$("rolePill").textContent=user.role==="admin"?"Administrator":"Student";if(user.role==="admin"){hide("studentTabs");show("adminTabs");showPanel("adminPanel");renderAdmin();}else{show("studentTabs");hide("adminTabs");showPanel("dashboardPanel");renderDashboard();renderTests();renderResults();}}
+$("logoutBtn").onclick=()=>{stopTimer();currentUser=null;show("loginView");hide("appView");hide("logoutBtn");$("headerStatus").textContent="Online MCQ Exam Platform";$("loginForm").reset();setMessage("");};
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active");showPanel(b.dataset.panel);if(b.dataset.panel==="resultsPanel")renderResults();}));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tabs button").forEach(x=>x.classList.toggle("active",x.dataset.panel===b.dataset.goto));showPanel(b.dataset.goto);}));
+function showPanel(id){document.querySelectorAll(".panel").forEach(p=>p.classList.add("hidden"));show(id);}
+function getResults(){try{return JSON.parse(localStorage.getItem("msk_results_"+currentUser.id)||"[]")}catch{return []}}
+function saveResult(r){const a=getResults();a.unshift(r);localStorage.setItem("msk_results_"+currentUser.id,JSON.stringify(a));}
+function renderDashboard(){const r=getResults();$("dashTestCount").textContent=TESTS.length;$("dashCompleted").textContent=r.length;$("dashAverage").textContent=r.length?Math.round(r.reduce((s,x)=>s+x.percent,0)/r.length)+"%":"—";}
+function renderTests(){$("testList").innerHTML=TESTS.map(t=>`<article class="card"><span class="pill">${t.subject}</span><h3 style="margin-top:12px">${t.title}</h3><p class="muted">${t.questions.length} MCQs · ${t.minutes} minutes</p><p>${t.paid?'<span class="pill">Paid test</span>':'<span class="pill">Free practice</span>'}</p><button class="primary" onclick="startTest('${t.id}')">Start test</button></article>`).join("");}
+function startTest(id){currentTest=TESTS.find(t=>t.id===id);if(!currentTest)return;if(currentTest.paid){alert("This demo cannot process payments. Paid access must be verified securely on the server.");return;}currentIndex=0;answers={};secondsLeft=currentTest.minutes*60;$("examSubject").textContent=currentTest.subject;$("examTitle").textContent=currentTest.title;$("examInstructions").textContent="Choose one answer per question. The test submits automatically when time runs out.";showPanel("examPanel");renderQuestion();startTimer();}
+function startTimer(){stopTimer();updateTimer();timerHandle=setInterval(()=>{secondsLeft--;updateTimer();if(secondsLeft<=0){stopTimer();submitTest(true);}},1000);}
+function stopTimer(){if(timerHandle){clearInterval(timerHandle);timerHandle=null;}}
+function updateTimer(){$("timer").textContent=String(Math.max(0,Math.floor(secondsLeft/60))).padStart(2,"0")+":"+String(Math.max(0,secondsLeft%60)).padStart(2,"0");}
+function renderQuestion(){const q=currentTest.questions[currentIndex];$("questionCounter").textContent=`Question ${currentIndex+1} of ${currentTest.questions.length}`;$("answeredCount").textContent=Object.keys(answers).length+" answered";$("questionText").textContent=q.q;$("options").innerHTML=q.options.map((o,i)=>`<label class="test-option ${answers[currentIndex]===i?'selected':''}"><input type="radio" name="option" value="${i}" ${answers[currentIndex]===i?'checked':''}><span>${String.fromCharCode(65+i)}. ${o}</span></label>`).join("");$("options").querySelectorAll("input").forEach(inp=>inp.addEventListener("change",()=>{answers[currentIndex]=Number(inp.value);renderQuestion();}));$("prevQuestion").disabled=currentIndex===0;$("nextQuestion").disabled=currentIndex===currentTest.questions.length-1;$("submitExam").textContent="Submit test";$("examProgress").style.width=((currentIndex+1)/currentTest.questions.length*100)+"%";}
+$("prevQuestion").onclick=()=>{if(currentIndex>0){currentIndex--;renderQuestion();}};$("nextQuestion").onclick=()=>{if(currentIndex<currentTest.questions.length-1){currentIndex++;renderQuestion();}};
+$("submitExam").onclick=()=>{if(confirm("Submit this test now?"))submitTest(false);};
+function submitTest(auto){stopTimer();let score=0;currentTest.questions.forEach((q,i)=>{if(answers[i]===q.answer)score++;});const result={testId:currentTest.id,title:currentTest.title,subject:currentTest.subject,score,total:currentTest.questions.length,percent:Math.round(score/currentTest.questions.length*100),date:new Date().toLocaleString(),answers:{...answers}};saveResult(result);lastReview={test:currentTest,result};renderReview(auto);renderDashboard();}
+function renderReview(auto){const {test,result}=lastReview;showPanel("reviewPanel");$("scoreSummary").innerHTML=`<div class="grid"><div class="card"><span class="muted">Your score</span><h2>${result.score}/${result.total}</h2></div><div class="card"><span class="muted">Percentage</span><h2>${result.percent}%</h2></div></div><p class="notice ${result.percent>=60?'success':''}">${auto?'Time ended. Your test was submitted automatically.':'Test submitted successfully.'} Review the correct answers and explanations below.</p>`;$("reviewQuestions").innerHTML=test.questions.map((q,i)=>{const picked=result.answers[i],correct=picked===q.answer;return `<div class="card" style="margin-top:12px"><b>Q${i+1}. ${q.q}</b><p class="${correct?'':'error'}">${picked===undefined?'Your answer: Not answered':'Your answer: '+q.options[picked]}</p><p class="success">Correct answer: ${q.options[q.answer]}</p><p class="muted">${q.explain}</p></div>`}).join("");}
+$("backToTests").onclick=()=>{showPanel("testsPanel");renderTests();};
+function renderResults(){const r=getResults();$("resultsContent").innerHTML=r.length?`<div class="table-wrap"><table><thead><tr><th>Test</th><th>Score</th><th>Percent</th><th>Date</th></tr></thead><tbody>${r.map(x=>`<tr><td>${x.title}</td><td>${x.score}/${x.total}</td><td>${x.percent}%</td><td>${x.date}</td></tr>`).join("")}</tbody></table></div>`:"No tests attempted yet.";renderDashboard();}
+function renderAdmin(){$("adminTestSummary").innerHTML=TESTS.map(t=>`<p><b>${t.subject}:</b> ${t.title} <span class="muted">(${t.questions.length} MCQs)</span></p>`).join("");$("manageTestList").innerHTML=TESTS.map(t=>`<p><b>${t.title}</b> — ${t.questions.length} questions, ${t.minutes} min</p>`).join("");}
+$("showDemoAccounts").onclick=()=>{const e=$("demoAccounts");e.classList.toggle("hidden");e.innerHTML=DEMO_USERS.map(u=>`<p><b>${u.id}</b> — ${u.name} (${u.role})</p>`).join("");};
+</script>
+</body>
+</html>
