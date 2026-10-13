@@ -1,0 +1,96 @@
+MSK ACADEMY — NEXT STEPS GUIDE
+===============================
+
+Your chosen setup
+-----------------
+- Login: unique Student ID + password
+- Account creation: only the administrator creates accounts
+- Payments: students submit a payment reference; admin checks the actual bank/wallet account and approves access
+- First release: free practice tests + manual payment review for paid tests
+
+IMPORTANT
+---------
+The included website is a preview, not a live secure service. The demo account is hard-coded in the browser. Do not use real student passwords or accept real payments through the preview. The SQL schema is a starting point, not a complete audited production system.
+
+STEP 1 — Download and open the preview
+--------------------------------------
+1. Download MSK_Academy_Full_Website_Starter.zip from this chat.
+2. On Android, open Files / File Manager and find the ZIP in Downloads.
+3. Extract it.
+4. Open the extracted folder and tap index.html.
+5. If your phone cannot open HTML locally, you can still keep the files and continue to Step 2 using GitHub in your browser.
+
+Demo login (preview only):
+Student ID: MSK1001
+Password: student123
+
+Demo admin (preview only):
+Student ID: ADMIN001
+Password: admin123
+
+STEP 2 — Put the preview online with GitHub Pages
+------------------------------------------------
+This publishes only the static demo. It does NOT make the demo login, payments, or admin permissions secure.
+
+1. Create/sign in to a GitHub account at https://github.com
+2. Create a new repository, for example: msk-academy
+3. Upload index.html to the repository root. You may also upload README.txt and supabase_schema.sql.
+4. In the repository, open Settings → Pages.
+5. Under build/deployment, choose Deploy from a branch; select the main branch and /(root), then Save.
+6. Wait for the published website URL shown in Settings → Pages.
+
+If the mobile interface makes uploading difficult, do this part on a computer or ask a trusted person to help. Never share your account password or OTP with them.
+
+STEP 3 — Create the real database
+---------------------------------
+1. Open https://supabase.com and create a project.
+2. Save the database password somewhere private. Do not send it to anyone.
+3. Open SQL Editor in your Supabase project.
+4. Open supabase_schema.sql from this package, copy the SQL, paste it into SQL Editor, and run it.
+5. Review any errors before proceeding. The SQL file is a starting schema and needs production review and additional server-side functions.
+
+STEP 4 — Secure Student ID + password login
+--------------------------------------------
+A secure design should work like this:
+- Admin creates a student account in a protected admin screen.
+- A trusted server function creates the Supabase Auth account and generates/assigns a unique Student ID such as MSK1001.
+- The student signs in using Student ID + password. A server function resolves the Student ID to the linked Auth user without exposing other students' private details.
+- Passwords are handled by Supabase Auth. Never store plaintext passwords in a table or frontend file.
+- Admin role is assigned only by a trusted server process. Do not allow a student to change their own role.
+
+Do not put the Supabase service-role key, database password, or payment secrets in index.html or any public repository.
+
+STEP 5 — Manual payment workflow
+--------------------------------
+For a paid test:
+1. Student chooses a test and sees the academy's verified payment instructions.
+2. Student pays using the academy's official bank/mobile-wallet/merchant account.
+3. Student submits only a transaction reference and optional receipt for review. Do not ask for PINs or OTPs.
+4. Admin checks the transaction in the actual account or official merchant portal. A screenshot alone is not proof of payment.
+5. A protected admin function marks the payment as verified and grants access to that test.
+6. The system records who approved it and when.
+
+Before taking real payments, publish your official payment details, refund policy, contact method, and test-access terms. Check the provider's merchant terms. Never claim a payment is verified until you have checked it.
+
+STEP 6 — Production features still to implement
+-----------------------------------------------
+[ ] Server function to create student accounts (admin-only)
+[ ] Student ID login resolution with rate limiting
+[ ] Protected admin role and authorization checks
+[ ] Secure test attempt and server-side scoring
+[ ] Correct answers kept private until submission/review
+[ ] Manual payment request and admin approval functions
+[ ] Database policies tested using separate student/admin accounts
+[ ] HTTPS deployment, backups, error handling and privacy notice
+[ ] Test the whole workflow before inviting real students
+
+Recommended launch sequence
+---------------------------
+A. Publish the static preview so you can review its design.
+B. Set up Supabase and test with dummy accounts.
+C. Connect login, database, test attempts and results.
+D. Add manual payment approval and restrict paid tests.
+E. Security-test with separate student and admin accounts.
+F. Only then invite real students and take payments.
+
+This package does not deploy a backend automatically. You must create the Supabase project and authorize each setup step yourself.
